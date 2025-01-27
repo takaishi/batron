@@ -7,3 +7,5 @@ Batch job deploy tool for AWS Batch.
 ```bash
 go install github.com/takaishi/batron/cmd/batron
 ```
+
+## Usage
