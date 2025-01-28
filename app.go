@@ -33,6 +33,12 @@ func (a *App) Dispatch(ctx context.Context, command string) error {
 			return err
 		}
 		return cmd.Run(ctx)
+	case "deploy":
+		cmd, err := NewDeployCommand(a, a.CLI.Deploy)
+		if err != nil {
+			return err
+		}
+		return cmd.Run(ctx)
 	}
 	return nil
 }

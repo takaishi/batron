@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"path/filepath"
 
 	"github.com/aws/aws-sdk-go/service/batch"
 	"github.com/google/go-jsonnet"
@@ -39,6 +40,10 @@ func (c *RenderCommand) Run(ctx context.Context) error {
 	return nil
 }
 
+func (c *RenderCommand) configFileDir() string {
+	return filepath.Dir(c.RenderOption.Config)
+}
+
 func (c *RenderCommand) loadConfig() (*Config, error) {
 	vm := jsonnet.MakeVM()
 	for k, v := range c.RenderOption.ExtStr {
@@ -61,7 +66,7 @@ func (c *RenderCommand) renderJobDefinition(config *Config) (*batch.RegisterJobD
 	for k, v := range c.RenderOption.ExtStr {
 		vm.ExtVar(k, v)
 	}
-	data, err := vm.EvaluateFile(config.JobDefinition)
+	data, err := vm.EvaluateFile(filepath.Join(c.configFileDir(), config.JobDefinition))
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate jsonnet: %w", err)
 	}
