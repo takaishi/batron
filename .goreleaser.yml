@@ -1,4 +1,4 @@
-project_name: tfclean
+project_name: batron
 env:
   - GO111MODULE=on
 before:
