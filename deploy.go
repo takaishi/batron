@@ -36,12 +36,16 @@ func (c *DeployCommand) Run(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed to render job definition: %w", err)
 	}
-	fmt.Printf("jobDef: %+v\n", jobDef)
 
-	_, err = c.batchClient.RegisterJobDefinition(ctx, jobDef)
+	output, err := c.batchClient.RegisterJobDefinition(ctx, jobDef)
 	if err != nil {
 		return fmt.Errorf("failed to register job definition: %w", err)
 	}
+	outputJson, err := json.MarshalIndent(output, "", "    ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal output: %w", err)
+	}
+	fmt.Println(string(outputJson))
 
 	return nil
 }
