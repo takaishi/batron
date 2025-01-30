@@ -14,9 +14,10 @@ type GlobalOptions struct {
 }
 
 type CLI struct {
-	Render  *RenderOption `cmd:"render" help:"Render job definition"`
-	Deploy  *DeployOption `cmd:"deploy" help:"Deploy job definition"`
-	Version VersionFlag   `name:"version" help:"show version"`
+	Render     *RenderOption     `cmd:"render" help:"Render job definition"`
+	Deploy     *DeployOption     `cmd:"deploy" help:"Deploy job definition"`
+	Deregister *DeregisterOption `cmd:"deregister" help:"Deregister old job definitions"`
+	Version    VersionFlag       `name:"version" help:"show version"`
 }
 
 type VersionFlag string

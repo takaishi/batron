@@ -39,6 +39,12 @@ func (a *App) Dispatch(ctx context.Context, command string) error {
 			return err
 		}
 		return cmd.Run(ctx)
+	case "deregister":
+		cmd, err := NewDeregisterCommand(a, a.CLI.Deregister)
+		if err != nil {
+			return err
+		}
+		return cmd.Run(ctx)
 	}
 	return nil
 }
