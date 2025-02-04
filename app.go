@@ -45,6 +45,12 @@ func (a *App) Dispatch(ctx context.Context, command string) error {
 			return err
 		}
 		return cmd.Run(ctx)
+	case "submit-job":
+		cmd, err := NewSubmitJobCommand(a, a.CLI.SubmitJob)
+		if err != nil {
+			return err
+		}
+		return cmd.Run(ctx)
 	}
 	return nil
 }

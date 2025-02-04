@@ -17,6 +17,7 @@ type CLI struct {
 	Render     *RenderOption     `cmd:"render" help:"Render job definition"`
 	Deploy     *DeployOption     `cmd:"deploy" help:"Deploy job definition"`
 	Deregister *DeregisterOption `cmd:"deregister" help:"Deregister old job definitions"`
+	SubmitJob  *SubmitJobOption  `cmd:"submit-job" help:"Submit a job to AWS Batch"`
 	Version    VersionFlag       `name:"version" help:"show version"`
 }
 
