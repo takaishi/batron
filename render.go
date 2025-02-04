@@ -36,7 +36,11 @@ func (c *RenderCommand) Run(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed to render job definition: %w", err)
 	}
-	fmt.Printf("%+v\n", jobDef)
+	json, err := json.MarshalIndent(jobDef, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal job definition: %w", err)
+	}
+	fmt.Printf("%s\n", string(json))
 	return nil
 }
 
