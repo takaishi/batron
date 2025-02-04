@@ -28,6 +28,9 @@ Commands:
   deregister [flags]
     Deregister old job definitions
 
+  submit-job --job-definition=STRING --job-queue=STRING --job-name=STRING [flags]
+    Submit a job to AWS Batch
+
 Run "batron <command> --help" for more information on a command.
 ```
 
