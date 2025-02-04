@@ -11,7 +11,7 @@ import (
 )
 
 type DeployCommand struct {
-	*App
+	batchClient  *batch.Client
 	DeployOption *DeployOption
 }
 
@@ -22,7 +22,7 @@ type DeployOption struct {
 
 func NewDeployCommand(app *App, option *DeployOption) (*DeployCommand, error) {
 	return &DeployCommand{
-		App:          app,
+		batchClient:  app.batchClient,
 		DeployOption: option,
 	}, nil
 }
