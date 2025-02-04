@@ -13,7 +13,7 @@ import (
 )
 
 type DeregisterCommand struct {
-	*App
+	batchClient      *batch.Client
 	DeregisterOption *DeregisterOption
 }
 
@@ -25,7 +25,7 @@ type DeregisterOption struct {
 
 func NewDeregisterCommand(app *App, option *DeregisterOption) (*DeregisterCommand, error) {
 	return &DeregisterCommand{
-		App:              app,
+		batchClient:      app.batchClient,
 		DeregisterOption: option,
 	}, nil
 }

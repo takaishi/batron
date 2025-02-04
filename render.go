@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/aws/aws-sdk-go/service/batch"
+	"github.com/aws/aws-sdk-go-v2/service/batch"
 	"github.com/google/go-jsonnet"
 )
 
 type RenderCommand struct {
-	*App
+	batchClient  *batch.Client
 	RenderOption *RenderOption
 }
 
@@ -22,7 +22,7 @@ type RenderOption struct {
 
 func NewRenderCommand(app *App, option *RenderOption) (*RenderCommand, error) {
 	return &RenderCommand{
-		App:          app,
+		batchClient:  app.batchClient,
 		RenderOption: option,
 	}, nil
 }
