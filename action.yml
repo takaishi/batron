@@ -1,0 +1,80 @@
+name: 'Setup Batron'
+description: 'Install batron CLI for AWS Batch deployments'
+author: 'takaishi'
+branding:
+  icon: 'package'
+  color: 'orange'
+
+inputs:
+  version:
+    description: 'Version of batron to use'
+    required: false
+    default: 'latest'
+  github_token:
+    description: 'GitHub token for API requests'
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install batron
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        set -e
+        
+        # Detect architecture
+        ARCH=$(uname -m)
+        case $ARCH in
+          x86_64)
+            BATRON_ARCH="amd64"
+            ;;
+          aarch64|arm64)
+            BATRON_ARCH="arm64"
+            ;;
+          i386|i686)
+            BATRON_ARCH="386"
+            ;;
+          *)
+            echo "Unsupported architecture: $ARCH"
+            exit 1
+            ;;
+        esac
+        
+        # Detect OS
+        OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+        
+        # Construct binary name
+        BINARY_NAME="batron_${OS}_${BATRON_ARCH}"
+        
+        # Determine download URL
+        if [ "${{ inputs.version }}" = "latest" ]; then
+          # Get latest release URL from GitHub API
+          RELEASE_URL=$(curl -sL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/takaishi/batron/releases | \
+            jq -r '.[0].assets[] | select(.name | contains("'${BINARY_NAME}'")) | .browser_download_url')
+        else
+          # Use specific version
+          VERSION="${{ inputs.version }}"
+          if [[ ! "$VERSION" =~ ^v ]]; then
+            VERSION="v${VERSION}"
+          fi
+          RELEASE_URL="https://github.com/takaishi/batron/releases/download/${VERSION}/${BINARY_NAME}.tar.gz"
+        fi
+        
+        # Download and extract
+        echo "Downloading batron from: $RELEASE_URL"
+        curl -sL "$RELEASE_URL" -o batron.tar.gz
+        tar -xzf batron.tar.gz
+        
+        # Install to tool cache
+        chmod +x batron
+        sudo mv batron /usr/local/bin/batron
+        
+        # Verify installation
+        batron --version
