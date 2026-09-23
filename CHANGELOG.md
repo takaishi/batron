@@ -4,6 +4,12 @@
 
 - add action.yml by @takaishi in https://github.com/takaishi/batron/pull/23
 - fix(action): match goreleaser asset names and verify checksum by @baseballyama in https://github.com/takaishi/batron/pull/25
+- Release for v0.0.5 by @takaishi-tagpr[bot] in https://github.com/takaishi/batron/pull/24
+
+## [v0.0.5](https://github.com/takaishi/batron/compare/v0.0.4...v0.0.5) - 2026-09-23
+
+- add action.yml by @takaishi in https://github.com/takaishi/batron/pull/23
+- fix(action): match goreleaser asset names and verify checksum by @baseballyama in https://github.com/takaishi/batron/pull/25
 
 ## [v0.0.4](https://github.com/takaishi/batron/compare/v0.0.3...v0.0.4) - 2025-02-04
 - feat: submit-job command by @takaishi in https://github.com/takaishi/batron/pull/20
